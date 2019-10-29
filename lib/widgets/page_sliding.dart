@@ -8,8 +8,6 @@ class OnePageSliding extends StatefulWidget {
 class _OnePageSlidingState extends State<OnePageSliding> {
   final movies = [Colors.blue, Colors.green, Colors.amber];
 
-  int currentPage = 0;
-
   final PageController _pageController = PageController(
     initialPage: 0,
   );
@@ -17,13 +15,26 @@ class _OnePageSlidingState extends State<OnePageSliding> {
   Widget _buttonLeft() {
     return Align(
       alignment: Alignment.centerLeft,
-      child: IconButton(
-        icon: Icon(
+      child: FlatButton(
+        shape: CircleBorder(),
+        child: Icon(
           Icons.chevron_left,
           color: Colors.white,
           size: 50,
         ),
-        onPressed: () {},
+        onPressed: () {
+          final pageIndex = (_pageController.page - 1).toInt();
+          // print(_pageController.page);
+          // print(pageIndex);
+          // print(pageIndex);
+          // if (pageIndex >= 0) {
+            _pageController.animateToPage(
+              pageIndex >= 0 ? pageIndex : movies.length,
+              curve: Curves.linear,
+              duration: Duration(milliseconds: 500),
+            );
+          // }
+        },
       ),
     );
   }
@@ -31,14 +42,24 @@ class _OnePageSlidingState extends State<OnePageSliding> {
   Widget _buttonRight() {
     return Align(
       alignment: Alignment.centerRight,
-      child: IconButton(
-        
-        icon: Icon(
+      child: FlatButton(
+        shape: CircleBorder(),
+        child: Icon(
           Icons.chevron_right,
           color: Colors.white,
-          size: 50.0,
+          size: 50,
         ),
-        onPressed: () {},
+        onPressed: () {
+          final pageIndex = (_pageController.page + 1).toInt();
+          print(pageIndex);
+          // if (pageIndex <= movies.length) {
+            _pageController.animateToPage(
+               pageIndex <= (movies.length - 1)  ? pageIndex : 0,
+              curve: Curves.linear,
+              duration: Duration(milliseconds: 500),
+            );
+          // }
+        },
       ),
     );
   }
