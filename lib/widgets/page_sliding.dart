@@ -24,16 +24,11 @@ class _OnePageSlidingState extends State<OnePageSliding> {
         ),
         onPressed: () {
           final pageIndex = (_pageController.page - 1).toInt();
-          // print(_pageController.page);
-          // print(pageIndex);
-          // print(pageIndex);
-          // if (pageIndex >= 0) {
             _pageController.animateToPage(
               pageIndex >= 0 ? pageIndex : movies.length,
               curve: Curves.linear,
               duration: Duration(milliseconds: 500),
             );
-          // }
         },
       ),
     );
@@ -52,13 +47,11 @@ class _OnePageSlidingState extends State<OnePageSliding> {
         onPressed: () {
           final pageIndex = (_pageController.page + 1).toInt();
           print(pageIndex);
-          // if (pageIndex <= movies.length) {
             _pageController.animateToPage(
                pageIndex <= (movies.length - 1)  ? pageIndex : 0,
               curve: Curves.linear,
               duration: Duration(milliseconds: 500),
             );
-          // }
         },
       ),
     );
@@ -77,8 +70,8 @@ class _OnePageSlidingState extends State<OnePageSliding> {
             );
           },
         ),
-        _buttonLeft(),
-        _buttonRight()
+        // _buttonLeft(),
+        // _buttonRight()
       ],
     );
   }
