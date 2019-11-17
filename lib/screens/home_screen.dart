@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:movie_web/mock-data/data.dart';
 import 'package:movie_web/screens/search_scren.dart';
+import 'package:movie_web/widgets/catergory_movie.dart';
 
-import 'package:movie_web/utils/color_util.dart';
+import 'package:movie_web/widgets/movie.dart';
 import 'package:movie_web/widgets/page_sliding.dart';
 
 class HomeScreen extends StatelessWidget {
-  final ratio = 118 / 70; // Width / Height
-  Widget _movieBanner(width) {
-    return Container(
-      width: width,
-      height: width / ratio,
-      child: OnePageSliding(),
-    );
-  }
+  // Width / Height
+  final ratio = 118 / 70;
 
   Widget build(BuildContext context) {
     // Size of screen
@@ -24,7 +20,6 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        // leading: ,
         // Control size of shadow below the appBar
         elevation: 0.0,
         actions: <Widget>[
@@ -36,12 +31,29 @@ class HomeScreen extends StatelessWidget {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: padding),
-        child: Column(
-          children: <Widget>[_movieBanner(size.width - (padding * 2))],
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15.0),
+        child: ListView(
+          children: <Widget>[
+            Padding(
+              child: _movieBanner(size.width - (padding * 2)),
+              padding: EdgeInsets.symmetric(vertical: 25.0),
+            ),
+            CategoryMovie(
+              category: 'Top Rated',
+              movies: movieList,
+            ),
+          ],
         ),
       ),
+    );
+  }
+
+  Widget _movieBanner(width) {
+    return Container(
+      width: width,
+      height: width / ratio,
+      child: OnePageSliding(),
     );
   }
 }
