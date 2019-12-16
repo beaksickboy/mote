@@ -3,12 +3,15 @@ import 'package:movie_web/models/movie_model.dart';
 
 class Movie extends StatelessWidget {
   final MovieModel moviesInfo;
-  Movie({this.moviesInfo});
+  final double width;
+  final double height;
+  final double movieTitleHeight;
+  Movie({this.moviesInfo, this.width, this.height, this.movieTitleHeight});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 180.0,
+      width: width,
       child: Column(
         children: [
           SizedBox(
@@ -21,14 +24,14 @@ class Movie extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            height: 250,
+            height: height,
           ),
           FittedBox(
             child: Text(
               '${moviesInfo.name}',
               maxLines: 1,
             ),
-          )
+          ),
         ],
       ),
     );
