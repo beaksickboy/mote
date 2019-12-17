@@ -16,14 +16,14 @@ class Movie extends StatelessWidget {
         children: [
           SizedBox(
             child: ClipRRect(
-              borderRadius: BorderRadius.all(
-                Radius.circular(15.0),
-              ),
-              child: Image.network(
-                moviesInfo.imageUrl,
-                fit: BoxFit.cover,
-              ),
-            ),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(15.0),
+                ),
+                child: FadeInImage.assetNetwork(
+                  image: moviesInfo.imageUrl,
+                  fit: BoxFit.cover,
+                  placeholder: 'assets/loading.gif',
+                )),
             height: height,
           ),
           FittedBox(
