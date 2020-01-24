@@ -14,9 +14,9 @@ class CategoryMovie extends StatelessWidget {
 
   double getMovieWidth(Size screenSize) {
     if (screenSize.width < MOBILE_WIDTH) {
-      return screenSize.width / 2;
+      return 200.0;
     }
-    return 0;
+    // return 0;
   }
 
   @override
