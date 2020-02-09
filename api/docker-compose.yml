@@ -2,6 +2,13 @@ version: '3'
 
 services:
     api:
+        build:
+            context: .
+            dockerfile: Dockerfile
         container_name: api
-        image: custom-golang
+        working_dir: /go/app
+        volumes:
+            - ${API_DIR}:/go/app
+        ports: 
+            - 8080:8080
 
