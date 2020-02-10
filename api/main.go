@@ -1,23 +1,21 @@
 package main
 
 import (
-    "log"
-    "net/http"
-	"fmt"
+	"log"
+	"mote/user"
+	"net/http"
+	"os"
 )
 
 type server struct{}
 
-func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-    w.WriteHeader(http.StatusOK)
-    w.Header().Set("Content-Type", "application/json")
-    w.Write([]byte(`{"message": "hello world"}`))
-}
-
 func main() {
-	fmt.Print("Server is starting...")
-    s := &server{}
-    http.Handle("/", s)
-	fmt.Print("Yo")
-    log.Fatal(http.ListenAndServe(":8080", nil))
+	// Show date timme, file name, line of code when logging
+	logger := log.New(os.Stdout, "mote", log.LstdFlags|log.Lshortfile)
+	h := user.NewHandlers(logger)
+	logger.Println("Server is starting...")
+
+	http.HandleFunc("/user", h.User)
+	// Handle error, so we will know what happened when it crashed
+	logger.Fatal(http.ListenAndServe(":8080", nil))
 }
