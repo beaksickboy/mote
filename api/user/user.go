@@ -18,6 +18,12 @@ func (h *Handlers) User(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`{"message": "hello world"}`))
 }
 
+func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodPost {
+		// json.(r.Body)
+	}
+}
+
 // NewHandlers  create a user handler with injected dependency
 func NewHandlers(logger *log.Logger) *Handlers {
 	return &Handlers{
