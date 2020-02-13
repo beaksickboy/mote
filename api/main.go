@@ -16,6 +16,7 @@ func main() {
 	logger.Println("Server is starting...")
 
 	http.HandleFunc("/user", h.User)
+	http.HandleFunc("/login", h.Login)
 	// Handle error, so we will know what happened when it crashed
 	logger.Fatal(http.ListenAndServe(":8080", nil))
 }
