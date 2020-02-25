@@ -28,6 +28,11 @@ type Claims struct {
 
 // User Handle User info
 func (h *Handlers) User(w http.ResponseWriter, r *http.Request) {
+	// token := r.Header.Get("Authorization")
+
+	if r.Method != http.MethodGet {
+
+	}
 	// Provide content type to give golang hint which response we are sending back (speed up)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
@@ -36,7 +41,6 @@ func (h *Handlers) User(w http.ResponseWriter, r *http.Request) {
 
 // Login Handle login request
 func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
-
 	if r.Method != http.MethodPost {
 		w.WriteHeader(http.StatusNotFound)
 		return

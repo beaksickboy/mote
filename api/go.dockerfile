@@ -8,5 +8,5 @@ WORKDIR /go/app
 
 COPY . .
 
-
-CMD ["gin", "run", "main.go"]
+# Must set flag -i to immedietly start server
+CMD ["gin", "-i", "run", "main.go"]
