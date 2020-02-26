@@ -1,9 +1,12 @@
+
+# Logical core vs Physical core
+- Physical core are actual physical core
+- Logical core = numb physical core * numb thread
+
 Concurrency in Go is the ability for functions to run independent of each other.
 
 > Parallelism is about doing a lot of things at once. Concurrency is about managing a lot of things at once 
 
-- Physical core are actual physical core
-- Logical core = numb physical core * numb thread
 - When a function is created as a goroutine, it’s treated as an independent unit of
 work that gets scheduled and then executed on an available logical processor.
 - Go runtime scheduler is a sophisticated piece of software that manages all
@@ -79,3 +82,6 @@ Design your program as a collection of independent process
 Design these process to eventually run in parallel
 
 Design your code so the outcome alway the same(dequential or parallel)
+
+
+
