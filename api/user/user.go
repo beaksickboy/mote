@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"mote/validation"
 	"net/http"
 	"time"
 
@@ -21,6 +22,13 @@ type LoginInfo struct {
 	Password string `json:"password"`
 }
 
+type signUpInfo struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+	Email    string `json:"email"`
+	Phone    string `json:"phone"`
+}
+
 type Claims struct {
 	id int
 	jwt.StandardClaims
@@ -28,23 +36,29 @@ type Claims struct {
 
 // User Handle User info
 func (h *Handlers) User(w http.ResponseWriter, r *http.Request) {
-	// token := r.Header.Get("Authorization")
-
-	if r.Method != http.MethodGet {
-
+	var i signUpInfo
+	if err := json.NewDecoder(r.Body).Decode(&i); err != nil {
+		h.logger.Println(err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
+
+	if validation.IsEmpty(i.Email) || validation.IsEmpty(i.Password) || validation.IsEmpty(i.Phone) || validation.IsEmpty(i.Username) {
+		h.logger.Println("props inside body must not be empty")
+		w.WriteHeader(http.StatusBadGateway)
+		return
+	}
+
+	// TODO store in user db
+
 	// Provide content type to give golang hint which response we are sending back (speed up)
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(`{"message": "hello world"}`))
+	w.WriteHeader(http.StatusCreated)
+	w.Write([]byte(`{"created": true}`))
 }
 
 // Login Handle login request
 func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		w.WriteHeader(http.StatusNotFound)
-		return
-	}
 	/**
 	* As with all structs in Go, it’s important to remember that only fields with
 	* a capital first letter are visible to external programs like the JSON Marshaller | Unmarshaller
