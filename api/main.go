@@ -2,11 +2,13 @@ package main
 
 import (
 	"log"
+	"mote/mongocon"
 	"mote/user"
 	"net/http"
 	"os"
 
 	"github.com/gorilla/mux"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 type server struct{}
@@ -14,10 +16,23 @@ type server struct{}
 func main() {
 	// Logger init: Show date timme, file name, line of code when logging
 	logger := log.New(os.Stdout, "mote", log.LstdFlags|log.Lshortfile)
-	// Router ini
+	// Router inits
 	r := mux.NewRouter()
+	// Establish db connection
+	con := mongocon.New(logger)
+	client, ctx := con.EstablishConnection()
+	defer client.Disconnect(*ctx)
 
-	h := user.NewHandlers(logger)
+	db, err := client.ListDatabaseNames(*ctx, bson.M{})
+	if err != nil {
+		logger.Fatalln(err)
+	}
+
+	logger.Println(db)
+
+	// Init handler
+	h := user.NewHandlers(logger, client)
+
 	logger.Println("Server is starting...")
 
 	r.HandleFunc("/user", h.User).Methods("POST")

@@ -1,6 +1,7 @@
 package user
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -9,11 +10,14 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 // Handlers type
 type Handlers struct {
 	logger *log.Logger
+	client *mongo.Client
 }
 
 // LoginInfo Placeholder for username and password
@@ -27,6 +31,13 @@ type signUpInfo struct {
 	Password string `json:"password"`
 	Email    string `json:"email"`
 	Phone    string `json:"phone"`
+}
+
+type User struct {
+	Username string
+	Password string
+	Email    string
+	Phone    string
 }
 
 type Claims struct {
@@ -49,12 +60,26 @@ func (h *Handlers) User(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// TODO store in user db
+	collection := h.client.Database("mote").Collection("user")
+	ctx, _ := context.WithTimeout(context.Background(), time.Second*3)
 
-	// Provide content type to give golang hint which response we are sending back (speed up)
-	w.Header().Set("Content-Type", "application/json")
+	var user bson.M
+	if err := collection.FindOne(ctx, bson.M{"email": i.Email, "username": i.Username}).Decode(&user); err == nil {
+		h.logger.Printf("Duplicate user info %s", user)
+		w.WriteHeader(http.StatusConflict)
+		return
+	}
+
+	// Not found
+	_, err := collection.InsertOne(ctx, i)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte(`{"created": true}`))
+	w.Write([]byte("{created: true}"))
+	return
+
 }
 
 // Login Handle login request
@@ -102,9 +127,10 @@ func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
 }
 
 // NewHandlers  create a user handler with injected dependency
-func NewHandlers(logger *log.Logger) *Handlers {
+func NewHandlers(logger *log.Logger, client *mongo.Client) *Handlers {
 	return &Handlers{
 		logger: logger,
+		client: client,
 	}
 }
 

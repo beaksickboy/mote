@@ -9,3 +9,12 @@ services:
       - ${API_DIR}:/go/app
     ports:
       - 8080:8080
+    depends_on: 
+      - db
+  db:
+    image: mongo:4.2.3
+    container_name: db
+    ports:
+      - 27017:27017
+    volumes:
+      - ${DB_DIR}:/data/db
