@@ -3,7 +3,6 @@ package user
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"log"
 	"mote/validation"
 	"net/http"
@@ -22,7 +21,7 @@ type Handlers struct {
 
 // LoginInfo Placeholder for username and password
 type LoginInfo struct {
-	Username string `json:"username"`
+	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
@@ -38,6 +37,13 @@ type User struct {
 	Password string
 	Email    string
 	Phone    string
+}
+
+type UserResponse struct {
+	Username string `json:"username"`
+	Email    string `json:"email"`
+	Phone    string `json:"phone"`
+	Token    string `json:"token"`
 }
 
 type Claims struct {
@@ -101,8 +107,8 @@ func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	// Check empty string
-	if i.Username+"gopher" == "gopher" || i.Password+"gopher" == "gopher" {
+
+	if validation.IsEmpty(i.Email) || validation.IsEmpty(i.Password) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -118,12 +124,29 @@ func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
 	s, err := token.SignedString(secretKey)
 
 	if err != nil {
+		h.logger.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 	}
+	var responseBody UserResponse
+	ctx, _ := context.WithTimeout(context.Background(), time.Second*5)
 
+	if err := h.client.Database("mote").Collection("user").FindOne(ctx, bson.M{
+		"email":    i.Email,
+		"password": i.Password,
+	}).Decode(&responseBody); err != nil {
+		h.logger.Println(err)
+		w.WriteHeader(http.StatusNoContent)
+		return
+	}
+	responseBody.Token = s
+
+	if err := json.NewEncoder(w).Encode(&responseBody); err != nil {
+		h.logger.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(fmt.Sprintf("{token: %s}", s)))
 }
 
 // NewHandlers  create a user handler with injected dependency
