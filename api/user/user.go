@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"log"
+	"mote/bsbmail"
 	"mote/validation"
 	"net/http"
 	"time"
@@ -15,8 +16,9 @@ import (
 
 // Handlers type
 type Handlers struct {
-	logger *log.Logger
-	client *mongo.Client
+	logger  *log.Logger
+	client  *mongo.Client
+	mailing *bsbmail.MailHanlder
 }
 
 // LoginInfo Placeholder for username and password
@@ -84,6 +86,7 @@ func (h *Handlers) User(w http.ResponseWriter, r *http.Request) {
 	}
 	w.WriteHeader(http.StatusCreated)
 	w.Write([]byte("{created: true}"))
+	h.mailing.SendMail([]string{i.Email})
 	return
 
 }
@@ -150,10 +153,11 @@ func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
 }
 
 // NewHandlers  create a user handler with injected dependency
-func NewHandlers(logger *log.Logger, client *mongo.Client) *Handlers {
+func NewHandlers(logger *log.Logger, client *mongo.Client, mailing *bsbmail.MailHanlder) *Handlers {
 	return &Handlers{
-		logger: logger,
-		client: client,
+		logger:  logger,
+		client:  client,
+		mailing: mailing,
 	}
 }
 

@@ -155,6 +155,20 @@ class _SignupFormState extends State<SignupForm> {
     super.dispose();
   }
 
+  void showSnackBar(message) {
+    final snackBar = SnackBar(
+      content: Text("$message"),
+      action: SnackBarAction(
+        label: "Dismiss",
+        onPressed: () {
+          Scaffold.of(context).removeCurrentSnackBar();
+        },
+      ),
+      behavior: SnackBarBehavior.fixed,
+    );
+    Scaffold.of(context).showSnackBar(snackBar);
+  }
+
   Widget build(context) {
     return Container(
       child: Padding(
@@ -220,6 +234,7 @@ class _SignupFormState extends State<SignupForm> {
                   }
                   return null;
                 },
+                obscureText: true,
                 decoration: InputDecoration(hintText: "Enter your password"),
                 textInputAction: TextInputAction.next,
               ),
@@ -228,13 +243,12 @@ class _SignupFormState extends State<SignupForm> {
               ),
               TextFormField(
                 validator: (text) {
-                  print(text);
-                  print(_passwordController.text);
                   if (_passwordController.text != text) {
                     return 'Password do not match';
                   }
                   return null;
                 },
+                obscureText: true,
                 decoration: InputDecoration(hintText: "Confirm your password"),
                 textInputAction: TextInputAction.next,
               ),
@@ -246,7 +260,7 @@ class _SignupFormState extends State<SignupForm> {
                   _phone = text;
                 },
                 validator: (text) {
-                  if (text.length > 10) {
+                  if (text.length < 10) {
                     return "Please enter valid phone number";
                   }
                   return null;
@@ -259,27 +273,36 @@ class _SignupFormState extends State<SignupForm> {
                 height: 20.0,
               ),
               RaisedButton(
-                  textColor: Colors.white,
-                  color: Colors.purpleAccent,
-                  disabledColor: Colors.purple,
-                  disabledTextColor: Colors.grey,
-                  onPressed: () {
-                    final isValid = _formKey.currentState.validate();
-                    if (!_autoValidate) {
-                      setState(() {
-                        _autoValidate = true;
-                      });
-                    }
-                    if (isValid) {
-                      _formKey.currentState.save();
-                      // BlocProvider.of(context).userBloc.signup(_email, _password, _username, _phone);
-                    }
-                  },
-                  child: Text("Sign up"),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
+                textColor: Colors.white,
+                color: Colors.purpleAccent,
+                disabledColor: Colors.purple,
+                disabledTextColor: Colors.grey,
+                onPressed: () async {
+                  final isValid = _formKey.currentState.validate();
+                  if (!_autoValidate) {
+                    setState(() {
+                      _autoValidate = true;
+                    });
+                  }
+                  if (!isValid) {
+                    return;
+                  }
+                  _formKey.currentState.save();
+                  final success = await BlocProvider.of(context)
+                      .userBloc
+                      .signup(_email, _password, _username, _phone);
+                  if (success) {
+                    Navigator.of(context).pop();
+                    showSnackBar(
+                        "Congratulation $_username, you have signed up successfully.");
+                    return;
+                  }
+                },
+                child: Text("Sign up"),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0),
                 ),
+              ),
             ],
           ),
         ),

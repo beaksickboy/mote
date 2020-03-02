@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"mote/bsbmail"
 	"mote/mongocon"
 	"mote/user"
 	"net/http"
@@ -18,6 +19,8 @@ func main() {
 	logger := log.New(os.Stdout, "mote", log.LstdFlags|log.Lshortfile)
 	// Router inits
 	r := mux.NewRouter()
+	// Init smtp
+	mailingHanler := bsbmail.NewHandler(logger)
 	// Establish db connection
 	con := mongocon.New(logger)
 	client, ctx := con.EstablishConnection()
@@ -31,7 +34,7 @@ func main() {
 	logger.Println(db)
 
 	// Init handler
-	h := user.NewHandlers(logger, client)
+	h := user.NewHandlers(logger, client, mailingHanler)
 
 	logger.Println("Server is starting...")
 

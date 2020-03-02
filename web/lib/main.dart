@@ -32,6 +32,10 @@ class MyApp extends StatelessWidget {
           textTheme: Theme.of(context)
               .textTheme
               .apply(bodyColor: Colors.white, displayColor: Colors.white),
+          snackBarTheme: SnackBarThemeData(
+            backgroundColor: Colors.purple,
+            actionTextColor: ColorUtil.backgroundColor
+          ),
           hintColor: Colors.grey),
       home: AppScreen(),
     );
