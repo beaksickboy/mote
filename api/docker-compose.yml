@@ -1,14 +1,22 @@
 version: '3'
-
-services:
-    api:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        container_name: api
-        working_dir: /go/app
-        volumes:
-            - ${API_DIR}:/go/app
-        ports: 
-            - 8080:8080
-
+services: 
+  user:
+    build: 
+      context: .
+      dockerfile: ./cmd/user-service/go.dockerfile
+    container_name: user
+    volumes:
+      - ${API_DIR}:/go/app
+    ports:
+      - 8080:8080
+    depends_on: 
+      - user-db
+  user-db:
+    image: mongo:4.2.3
+    container_name: user-db
+    ports:
+      - 27017:27017
+    volumes:
+      - user-db:/data/db
+volumes: 
+  user-db:
