@@ -14,7 +14,7 @@ type MongoCon struct {
 	logger *log.Logger
 }
 
-func (c *MongoCon) EstablishConnection(uri string) (*mongo.Client, *context.Context) {
+func (c *MongoCon) EstablishConnection() (*mongo.Client, *context.Context) {
 
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://user-db"))

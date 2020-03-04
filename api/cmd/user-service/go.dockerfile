@@ -7,7 +7,7 @@ WORKDIR /go/app
 
 COPY . .
 
+RUN go mod download
 
-# RUN gin -h
-# # Must set flag -i to immedietly start server
-CMD ["go", "run", "./cmd/user-service/main.go"]
+# Must set flag -i to immedietly start server
+CMD ["gin", "-i", "--build", "cmd/user-service"]
