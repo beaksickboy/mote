@@ -8,6 +8,8 @@ WORKDIR /go/app
 COPY . .
 
 RUN go mod download
+# Have no idea why gin fail if i don't call go get gin directly on window
+RUN go get github.com/codegangsta/gin
 
 # Must set flag -i to immedietly start server
 CMD ["gin", "-i", "--build", "cmd/user-service"]
