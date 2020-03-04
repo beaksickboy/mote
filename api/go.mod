@@ -1,4 +1,4 @@
-module mote
+module github.com/beaksickboy/mote/api
 
 go 1.13
 
