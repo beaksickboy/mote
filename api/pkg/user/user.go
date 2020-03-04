@@ -4,8 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"log"
-	"mote/bsbmail"
-	"mote/validation"
+	"github.com/beaksickboy/mote/api/pkg/bsbmail"
+	"github.com/beaksickboy/mote/api/pkg/validation"
 	"net/http"
 	"time"
 
