@@ -1,12 +1,15 @@
 package main
 
 import (
+	"context"
 	"log"
+	"net/http"
+	"os"
+	"time"
+
 	"github.com/beaksickboy/mote/api/pkg/bsbmail"
 	"github.com/beaksickboy/mote/api/pkg/mongocon"
 	"github.com/beaksickboy/mote/api/pkg/user"
-	"net/http"
-	"os"
 
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
@@ -23,10 +26,13 @@ func main() {
 	mailingHanler := bsbmail.NewHandler(logger)
 	// Establish db connection
 	con := mongocon.New(logger)
-	client, ctx := con.EstablishConnection()
-	defer client.Disconnect(*ctx)
 
-	db, err := client.ListDatabaseNames(*ctx, bson.M{})
+	client := con.EstablishConnection("mongodb://user-db")
+
+	ctx, _ := context.WithTimeout(context.Background(), time.Second*3)
+	defer client.Disconnect(ctx)
+
+	db, err := client.ListDatabaseNames(ctx, bson.M{})
 	if err != nil {
 		logger.Fatalln(err)
 	}

@@ -11,6 +11,7 @@ services:
       - 8080:8080
     depends_on: 
       - user-db
+
   user-db:
     image: mongo:4.2.3
     container_name: user-db
@@ -18,5 +19,25 @@ services:
       - 27017:27017
     volumes:
       - user-db:/data/db
+
+  movie:
+    build:
+      context: .
+      dockerfile: ./cmd/movie-service/go.dockerfile
+    container_name: movie
+    volumes:
+      - ${API_DIR}:/go/app
+    ports: 
+      - 8081:8080
+
+  movie-db:
+    image: mongo:4.2.3
+    container_name: movie-db
+    ports:
+      - 27018:27017
+    volumes:
+      - movie-db:/data/db
+
 volumes: 
   user-db:
+  movie-db:
