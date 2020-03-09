@@ -75,8 +75,6 @@ Channels provide an intrinsic way to safely share data between two goroutines.
 
 go routine are user space thread, create and manage by go runtime, not the os lightweight compared to the os thread
 
-https://www.youtube.com/watch?v=YEKjSzIwAdA&t=409s
-Concurrency is not parallesm
 
 Design your program as a collection of independent process
 Design these process to eventually run in parallel
@@ -85,3 +83,8 @@ Design your code so the outcome alway the same(dequential or parallel)
 
 
 
+# Must Read
+https://blog.golang.org/godoc-documenting-go-code
+
+Concurrency is not parallesm
+https://www.youtube.com/watch?v=YEKjSzIwAdA&t=409s
