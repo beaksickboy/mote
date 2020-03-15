@@ -1,6 +1,11 @@
-package main
+package auth
 
-import "net/http"
+import (
+	"fmt"
+	"log"
+	"net/http"
+	"strings"
+)
 
 type authHandler struct {
 	next http.Handler
@@ -20,6 +25,21 @@ func (h *authHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	h.next.ServeHTTP(w, r)
+}
+
+// /auth/action/provider
+func LoginHandler(w http.ResponseWriter, r *http.Request) {
+	segs := strings.Split(r.URL.Path, "/")
+	action := segs[2]
+	provider := segs[3]
+	fmt.Println(action)
+
+	switch action {
+	case "login":
+		log.Println("login", provider)
+	default:
+		w.WriteHeader(http.StatusNotFound)
+	}
 }
 
 func MustAuth(handler http.Handler) http.Handler {

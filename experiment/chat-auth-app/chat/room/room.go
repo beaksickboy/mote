@@ -1,15 +1,13 @@
-package main
+package room
 
 import (
 	"log"
 	"net/http"
 
-	// "trace"
-
 	"github.com/gorilla/websocket"
 )
 
-type room struct {
+type Room struct {
 	// forward is a channel that holds incoming messages
 	// that should be forwarded to the other clients.
 	forward chan []byte
@@ -23,8 +21,8 @@ type room struct {
 	// r trace.Tracer
 }
 
-func NewRoom() *room {
-	return &room{
+func NewRoom() *Room {
+	return &Room{
 		forward: make(chan []byte),
 		join:    make(chan *Client),
 		leave:   make(chan *Client),
@@ -32,7 +30,7 @@ func NewRoom() *room {
 	}
 }
 
-func (r *room) run() {
+func (r *Room) Run() {
 	for {
 		// select only run one block of case code at atime === synchonize
 		select {
@@ -59,7 +57,7 @@ const (
 
 var upgrader = &websocket.Upgrader{ReadBufferSize: socketBufferSize, WriteBufferSize: socketBufferSize}
 
-func (r *room) ServeHttp(w http.ResponseWriter, req *http.Request) {
+func (r *Room) ServeHttp(w http.ResponseWriter, req *http.Request) {
 
 	socket, err := upgrader.Upgrade(w, req, nil)
 
@@ -82,4 +80,31 @@ func (r *room) ServeHttp(w http.ResponseWriter, req *http.Request) {
 
 	client.read()
 
+}
+
+type Client struct {
+	socket *websocket.Conn
+	room   *Room
+	send   chan []byte
+}
+
+func (c *Client) read() {
+	for {
+		_, msg, err := c.socket.ReadMessage()
+
+		if err != nil {
+			return
+		}
+		c.room.forward <- msg
+	}
+}
+
+func (c *Client) write() {
+	defer c.socket.Close()
+	for msg := range c.send {
+		err := c.socket.WriteMessage(websocket.TextMessage, msg)
+		if err != nil {
+			return
+		}
+	}
 }
