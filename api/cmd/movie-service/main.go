@@ -36,6 +36,7 @@ func main() {
 
 	logger.Println("Server is starting...")
 	r.HandleFunc("/movies", h.GetMovies).Methods("GET")
+	r.HandleFunc("/movies", h.AddMovies).Methods("POST")
 
 	logger.Fatal(http.ListenAndServe(":8080", r))
 

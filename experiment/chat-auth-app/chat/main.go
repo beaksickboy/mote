@@ -8,6 +8,9 @@ import (
 	"net/http"
 	"path/filepath"
 	"sync"
+
+	"github.com/stretchr/gomniauth"
+	"github.com/stretchr/gomniauth/providers/google"
 )
 
 // templ represents a single template
@@ -27,6 +30,11 @@ func (t *templateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	gomniauth.SetSecurityKey("ahahaha")
+	gomniauth.WithProviders(
+		google.New("650909378810-oot1pf49hkjikbebnbv5okq4qoigifcd.apps.googleusercontent.com", "Uf7GCMLqDlf7vTyvrbEDlwhm", "http://localhost:8080/auth/callback/google"),
+	)
+
 	r := room.NewRoom()
 	// root
 	http.Handle("/chat", auth.MustAuth(&templateHandler{filename: "chat.html"}))
@@ -40,3 +48,6 @@ func main() {
 		log.Fatal("ListenAndServe:", err)
 	}
 }
+
+// client-id: 650909378810-oot1pf49hkjikbebnbv5okq4qoigifcd.apps.googleusercontent.com
+// client-secret: Uf7GCMLqDlf7vTyvrbEDlwhm

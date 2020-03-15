@@ -16,6 +16,17 @@ func (h *Handler) GetMovies(w http.ResponseWriter, r *http.Request) {
 
 }
 
+movieName
+image
+introduction
+
+
+
+
+func (h *Handler) AddMovies(w http.ResponseWriter, r *http.Request) {
+	// r.GetBody
+}
+
 func NewHandlers(log *log.Logger, client *mongo.Client) *Handler {
 	return &Handler{
 		log:    log,

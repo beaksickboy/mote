@@ -4,10 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"log"
-	"github.com/beaksickboy/mote/api/pkg/bsbmail"
-	"github.com/beaksickboy/mote/api/pkg/validation"
 	"net/http"
 	"time"
+
+	"github.com/beaksickboy/mote/api/pkg/bsbmail"
+	"github.com/beaksickboy/mote/api/pkg/validation"
 
 	"github.com/dgrijalva/jwt-go"
 	"go.mongodb.org/mongo-driver/bson"
