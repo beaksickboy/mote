@@ -35,7 +35,9 @@ func main() {
 	h := movie.NewHandlers(logger, client)
 
 	logger.Println("Server is starting...")
-	r.HandleFunc("/movies", h.GetMovies).Methods("GET")
+	r.HandleFunc("/movies/type/:type", h.GetMoviesByType).Methods("GET")
+	r.HandleFunc("/movies/type", h.GetMovieType).Methods("GET")
+	r.HandleFunc("/movies/:id", h.GetMovieDetail).Methods("GET")
 	r.HandleFunc("/movies", h.AddMovies).Methods("POST")
 
 	logger.Fatal(http.ListenAndServe(":8080", r))
