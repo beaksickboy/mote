@@ -19,3 +19,6 @@ https://blog.cloudflare.com/exposing-go-on-the-internet/
 
 # IMDB
 https://medium.com/@denisanikin/what-an-in-memory-database-is-and-how-it-persists-data-efficiently-f43868cff4c1
+
+# Insert or Query in compass with object id
+{"_id":{"$oid":"58f8085dc1840e050034d98f"}}

@@ -5,11 +5,13 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 
+	"github.com/gorilla/mux"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"gopkg.in/mgo.v2/bson"
 )
 
 type MovieDetail struct {
@@ -72,6 +74,63 @@ func (h *Handler) GetMovieType(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) GetMoviesByType(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	if string(vars["type"]) == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		h.log.Println("Parameter must not null")
+		return
+	}
+
+	types := strings.Split(vars["type"], ",")
+	typeCollection := h.client.Database("movie").Collection("movies")
+	ctx, _ := context.WithTimeout(context.Background(), time.Second*2)
+
+	matchStage := bson.D{primitive.E{
+		Key: "$match",
+		Value: bson.D{
+			primitive.E{
+				Key: "type",
+				Value: bson.D{
+					primitive.E{
+						Key:   "$in",
+						Value: types,
+					},
+				},
+			},
+		},
+	}}
+
+	groupStage := bson.D{primitive.E{
+		Key: "$group",
+		Value: bson.D{
+			primitive.E{
+				Key:   "_id",
+				Value: "$type",
+			},
+			primitive.E{
+				Key: "movies",
+				Value: bson.D{
+					primitive.E{
+						Key:   "$push",
+						Value: "$$ROOT",
+					},
+				},
+			},
+		},
+	}}
+
+	cursor, err := typeCollection.Aggregate(ctx, mongo.Pipeline{matchStage, groupStage})
+	if err != nil {
+		h.log.Println("Aggregate failed", err)
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+	var data []bson.M
+	if err = cursor.All(ctx, &data); err != nil {
+		h.log.Println("Decode error", &data)
+	}
+
+	h.log.Println(data)
+
 }
 
 func (h *Handler) GetMovieDetail(w http.ResponseWriter, r *http.Request) {
