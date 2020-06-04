@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_web/bloc/bloc-provider.dart';
 import 'package:movie_web/screens/app_screen.dart';
+import 'package:movie_web/screens/home_screen.dart';
 import 'package:movie_web/utils/color_util.dart';
 
 void main() {
@@ -37,7 +38,8 @@ class MyApp extends StatelessWidget {
             actionTextColor: ColorUtil.backgroundColor
           ),
           hintColor: Colors.grey),
-      home: AppScreen(),
+      home: SafeArea(child: HomeScreen()),
+//      home: SafeArea(child: AppScreen()),
     );
   }
 }
