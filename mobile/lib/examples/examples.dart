@@ -1,12 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:movie_web/examples/parallax_carousel_screen.dart';
+import 'package:movie_web/examples/platform-screen.dart';
 import 'package:movie_web/examples/radial_menu_screen.dart';
 import 'package:movie_web/examples/timer-screen.dart';
-import 'package:movie_web/utils/keyboard_formatter.dart';
-import 'package:movie_web/widgets/parallax-carousel.dart';
 
 class _DemoInfo {
   String title;
@@ -17,12 +13,12 @@ class _DemoInfo {
   _DemoInfo({this.title, this.subTitle, this.icon, this.routeName});
 }
 
-class HomeScreen extends StatelessWidget {
-  static String routeName = '/';
+class Examples extends StatelessWidget {
+  static String routeName = '/examples';
 
   final List<_DemoInfo> demos = [
     _DemoInfo(
-        title: 'Parallax Carousel',
+        title: 'Parallax Ca rousel',
         icon: Icon(Icons.widgets),
         routeName: ParallaxCarouselScreen.routeName,
         subTitle: 'Carousel with parallax effect'),
@@ -36,6 +32,11 @@ class HomeScreen extends StatelessWidget {
         icon: Icon(Icons.widgets),
         routeName: TimeScreen.routeName,
         subTitle: 'Timer Screen'),
+    _DemoInfo(
+        title: 'Platform Screen',
+        icon: Icon(Icons.widgets),
+        routeName: PlatformScreen.routeName,
+        subTitle: 'Demonstrate widget adapt for different platform'),
   ];
 
   @override
@@ -46,14 +47,14 @@ class HomeScreen extends StatelessWidget {
         children: demos
             .map(
               (e) => ListTile(
-                title: Text(e.title),
-                subtitle: Text(e.subTitle),
-                leading: e.icon,
-                onTap: () {
-                  Navigator.pushNamed(context, e.routeName);
-                },
-              ),
-            )
+            title: Text(e.title),
+            subtitle: Text(e.subTitle),
+            leading: e.icon,
+            onTap: () {
+              Navigator.pushNamed(context, e.routeName);
+            },
+          ),
+        )
             .toList(),
       ),
     );

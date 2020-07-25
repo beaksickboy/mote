@@ -1,0 +1,3 @@
+- Button => PlatformButton
+- Switch => Switch.adaptive
+- Dropdown =>

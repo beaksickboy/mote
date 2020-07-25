@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:movie_web/screens/home_screen.dart';
-
-import 'package:movie_web/screens/home_screen.dart';
 import 'package:movie_web/screens/utitlity_screen.dart';
 
 class AppScreen extends StatefulWidget {

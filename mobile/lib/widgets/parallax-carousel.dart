@@ -22,7 +22,6 @@ class _CarouselCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(this.el);
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -38,7 +37,7 @@ class _CarouselCard extends StatelessWidget {
         ),
 
         /// SizedBox.shrink() Return an container width and height is 0
-        el.widget ?? SizedBox.shrink()
+        el.widget ?? SizedBox.shrink(),
       ],
     );
   }
@@ -62,8 +61,17 @@ class _CarouselCard extends StatelessWidget {
 class ParallaxCarousel extends StatefulWidget {
   final List<ParallaxCardModel> items;
   final int borderRadius;
+  final bool showScrollIndicator;
+  final Color thumbColor;
+  final Color trackColor;
 
-  ParallaxCarousel({@required this.items, this.borderRadius});
+  ParallaxCarousel({
+    @required this.items,
+    this.borderRadius,
+    this.showScrollIndicator = false,
+    this.thumbColor = Colors.black,
+    this.trackColor = Colors.white,
+  });
 
   @override
   _ParallaxCarouselState createState() => _ParallaxCarouselState();
@@ -175,7 +183,6 @@ class _ParallaxCarouselState extends State<ParallaxCarousel>
 
     ///    (index / count) is the beginning scroll percent for a given index
     final parallax = scrollPercent - (index / count);
-    print(parallax);
 
     ///    Card scroll percent === 0
     ///    => 0 1 2
@@ -202,9 +209,143 @@ class _ParallaxCarouselState extends State<ParallaxCarousel>
       /// => sẽ không handle đc event.
       /// opaque cho phép receive các event xảy ra và ngăn chặn child nhận đc event
       behavior: HitTestBehavior.opaque,
-      child: Stack(
-        children: _buildCards(),
+      child: Column(
+        children: [
+          Expanded(
+            child: Stack(
+              children: _buildCards(),
+            ),
+          ),
+          _BottomBar(
+            scrollPercent: scrollPercent,
+            numCards: widget.items.length,
+            showScrollIndicator: widget.showScrollIndicator,
+            thumbColor: widget.thumbColor,
+            trackColor: widget.trackColor,
+          )
+        ],
       ),
     );
+  }
+}
+
+class _BottomBar extends StatelessWidget {
+  final double scrollPercent;
+  final int numCards;
+  final Color thumbColor;
+  final Color trackColor;
+  final bool showScrollIndicator;
+
+  _BottomBar(
+      {@required this.scrollPercent,
+      @required this.numCards,
+      this.thumbColor,
+      this.trackColor,
+      this.showScrollIndicator});
+
+  @override
+  Widget build(BuildContext context) {
+    return showScrollIndicator
+        ? Container(
+            height: 40.0,
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
+            child: _ScrollIndicator(
+              scrollPercent: scrollPercent,
+              numCards: numCards,
+              thumbColor: thumbColor,
+              trackColor: trackColor,
+            ),
+          )
+        : SizedBox(
+            height: 0,
+            width: 0,
+          );
+  }
+}
+
+class _ScrollIndicator extends StatelessWidget {
+  final double scrollPercent;
+  final int numCards;
+  final Color thumbColor;
+  final Color trackColor;
+
+  _ScrollIndicator(
+      {@required this.scrollPercent,
+      @required this.numCards,
+      this.thumbColor,
+      this.trackColor});
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      painter: _ScrollIndicatorPainter(
+          scrollPercent: scrollPercent,
+          numCards: numCards,
+          thumbColor: thumbColor,
+          trackColor: trackColor),
+    );
+  }
+}
+
+class _ScrollIndicatorPainter extends CustomPainter {
+  final double scrollPercent;
+  final int numCards;
+  final Paint trackPaint;
+  final Paint thumbPaint;
+  final Color thumbColor;
+  final Color trackColor;
+
+  _ScrollIndicatorPainter(
+      {@required this.scrollPercent,
+      @required this.numCards,
+      this.thumbColor,
+      this.trackColor})
+      : trackPaint = Paint()
+          ..color = trackColor
+          ..style = PaintingStyle.fill,
+        thumbPaint = Paint()
+          ..color = thumbColor
+          ..style = PaintingStyle.fill;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas.drawRRect(
+        RRect.fromRectAndCorners(
+          Rect.fromLTWH(
+            0.0,
+            0.0,
+            size.width,
+            size.height,
+          ),
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
+          bottomLeft: Radius.circular(10),
+          bottomRight: Radius.circular(10),
+        ),
+        trackPaint);
+
+    final widthThumb = size.width / numCards;
+    final startLeftThumb = scrollPercent * size.width;
+
+    canvas.drawRRect(
+        RRect.fromRectAndCorners(
+          Rect.fromLTWH(
+            startLeftThumb,
+            0.0,
+            widthThumb,
+            size.height,
+          ),
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
+          bottomLeft: Radius.circular(10),
+          bottomRight: Radius.circular(10),
+        ),
+        thumbPaint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return true;
   }
 }
