@@ -8,6 +8,7 @@ class PlatformScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: ListView(
         children: [
           // IOS Android button
@@ -20,8 +21,53 @@ class PlatformScreen extends StatelessWidget {
             onPressed: () {},
             ios: true,
           ),
-
-          MultiSelectDropdownMenu()
+          PlatformButton(
+            child: Text('IOS Button'),
+            onPressed: () {},
+            ios: true,
+          ),
+          PlatformButton(
+            child: Text('IOS Button'),
+            onPressed: () {},
+            ios: true,
+          ),
+          PlatformButton(
+            child: Text('IOS Button'),
+            onPressed: () {},
+            ios: true,
+          ),
+          PlatformButton(
+            child: Text('IOS Button'),
+            onPressed: () {},
+            ios: true,
+          ),
+          PlatformButton(
+            child: Text('IOS Button'),
+            onPressed: () {},
+            ios: true,
+          ),
+          PlatformButton(
+            child: Text('IOS Button'),
+            onPressed: () {},
+            ios: true,
+          ), PlatformButton(
+            child: Text('IOS Button'),
+            onPressed: () {},
+            ios: true,
+          ),
+          PlatformButton(
+            child: Text('IOS Button'),
+            onPressed: () {},
+            ios: true,
+          ),
+          PlatformButton(
+            child: Text('IOS Button'),
+            onPressed: () {},
+            ios: true,
+          ),
+          MultiSelectDropdownMenu(
+            items: ['ABC', 'abds', 'asdasd', 'adsasd ', 'ABC', 'abds', 'asdasd', 'adsasd '],
+          ),
         ],
       ),
     );
