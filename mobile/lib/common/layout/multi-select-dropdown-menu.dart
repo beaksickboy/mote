@@ -60,6 +60,9 @@ class MultiSelectDropdownMenu<T> extends FormField<List<T>> {
                       decoration.copyWith(errorText: fieldState.errorText),
                 ),
                 onTap: () {
+                  if (items == null || items.length == 0) {
+                    return;
+                  }
                   // Get current input render box
                   final RenderBox inputBox =
                       fieldState.context.findRenderObject();
@@ -159,7 +162,6 @@ class __MultiSelectDropdownContentState
                 separatorBuilder: (context, index) => Divider(),
                 itemBuilder: (context, index) {
                   final key = filteredItems.elementAt(index);
-//                  return null;
                   return ListTile(
                     onTap: () {
                       setState(() {
@@ -272,21 +274,31 @@ class _MultiSelectDropdownRoute extends PopupRoute {
   @override
   Widget buildPage(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return _MultiSelectDropdownPage(
-          child: child,
-          constraints: constraints,
-          inputRect: inputRect,
-          filter: filter,
-          maxHeight: maxHeight,
-        );
-      },
+    print(inputRect.top);
+
+    return ScaleTransition(
+      scale: animation.drive(Tween(begin: 0.9, end: 1.0)),
+      alignment: Alignment.topLeft,
+
+      child: FadeTransition(
+        opacity: animation,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return _MultiSelectDropdownPage(
+              child: child,
+              constraints: constraints,
+              inputRect: inputRect,
+              filter: filter,
+              maxHeight: maxHeight,
+            );
+          },
+        ),
+      ),
     );
   }
 
   @override
-  Duration get transitionDuration => Duration(milliseconds: 300);
+  Duration get transitionDuration => Duration(milliseconds: 100);
 
   @override
   String get barrierLabel => 'BarrierLabel';

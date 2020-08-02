@@ -34,38 +34,41 @@ class MyCustomFormState extends State<MyCustomForm> {
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          MultiSelectDropdownMenu<String>(
-            autovalidate: true,
-            items: ['ABCD', 'abdsE', 'asdasdF', 'adsasddG'],
-            filter: true,
-            validator: (value) {
-              print(value);
-              if (value == null || value.length == 0) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: RaisedButton(
-              onPressed: () {
-                // Validate returns true if the form is valid, or false
-                // otherwise.
-                if (_formKey.currentState.validate()) {
-                  Scaffold.of(context)
-                      .showSnackBar(SnackBar(content: Text('Processing Data')));
+    return Padding(
+      padding: const EdgeInsets.only(top: 300.0),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            MultiSelectDropdownMenu<String>(
+              autovalidate: true,
+              items: ['ABCD', 'abdsE', 'asdasdF', 'adsasddG'],
+              filter: true,
+              validator: (value) {
+                print(value);
+                if (value == null || value.length == 0) {
+                  return 'Please enter some text';
                 }
+                return null;
               },
-              child: Text('Submit'),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: RaisedButton(
+                onPressed: () {
+                  // Validate returns true if the form is valid, or false
+                  // otherwise.
+                  if (_formKey.currentState.validate()) {
+                    Scaffold.of(context)
+                        .showSnackBar(SnackBar(content: Text('Processing Data')));
+                  }
+                },
+                child: Text('Submit'),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
