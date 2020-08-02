@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -13,8 +11,10 @@ class MultiSelectDropdownMenu<T> extends FormField<List<T>> {
   final List<T> initialValue;
   final bool autovalidate;
   final bool enabled;
+  final InputDecoration decoration;
 
   MultiSelectDropdownMenu({
+    Key key,
     @required this.items,
     this.filter = false,
     this.maxHeight = 250,
@@ -23,7 +23,9 @@ class MultiSelectDropdownMenu<T> extends FormField<List<T>> {
     this.validator,
     this.autovalidate = false,
     this.enabled = true,
+    this.decoration = const InputDecoration(),
   }) : super(
+          key: key,
           onSaved: onSaved,
           validator: validator,
           initialValue: initialValue,
@@ -34,12 +36,17 @@ class MultiSelectDropdownMenu<T> extends FormField<List<T>> {
           ) {
             final _MultiSelectDropdownMenuState fieldState =
                 state as _MultiSelectDropdownMenuState;
+            ;
             // Apply color for icon when field has error
-            final InputDecoration baseDecoration = InputDecoration(
-                suffixIcon: Icon(Icons.arrow_drop_down,
-                    color: fieldState.hasError
-                        ? Colors.red
-                        : IconTheme.of(fieldState.context).color));
+            final InputDecoration baseDecoration =
+                fieldState.widget.decoration.copyWith(
+              suffixIcon: Icon(
+                Icons.arrow_drop_down,
+                color: fieldState.hasError
+                    ? Colors.red
+                    : IconTheme.of(fieldState.context).color,
+              ),
+            );
             // Apply default input theme
             final InputDecoration decoration = baseDecoration.applyDefaults(
               Theme.of(fieldState.context).inputDecorationTheme,
@@ -62,9 +69,7 @@ class MultiSelectDropdownMenu<T> extends FormField<List<T>> {
                   Navigator.of(fieldState.context).push(
                     _MultiSelectDropdownRoute(
                       child: _MultiSelectDropdownContent(
-                        items: items,
-                        fieldState: fieldState,
-                      ),
+                          items: items, fieldState: fieldState, filter: filter),
                       inputRect: inputRect,
                       maxHeight: maxHeight,
                       filter: filter,
@@ -84,9 +89,10 @@ class MultiSelectDropdownMenu<T> extends FormField<List<T>> {
 class _MultiSelectDropdownContent extends StatefulWidget {
   final List items;
   final _MultiSelectDropdownMenuState fieldState;
+  final bool filter;
 
   _MultiSelectDropdownContent(
-      {@required this.items, @required this.fieldState});
+      {@required this.items, @required this.fieldState, this.filter});
 
   @override
   __MultiSelectDropdownContentState createState() =>
@@ -95,35 +101,86 @@ class _MultiSelectDropdownContent extends StatefulWidget {
 
 class __MultiSelectDropdownContentState
     extends State<_MultiSelectDropdownContent> {
+  TextEditingController _textController;
+  List filteredItems;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.filter) {
+      _textController = TextEditingController();
+      // Initial filtered items
+      updateFilteredItems();
+      _textController.addListener(() {
+        setState(() {
+          // Subsequent filtered items
+          updateFilteredItems();
+        });
+      });
+    } else {
+      filteredItems = widget.items;
+    }
+  }
+
+  updateFilteredItems() {
+    filteredItems = widget.items.where((element) {
+      if (_textController.text != null ||
+          _textController.text.toString() != '') {
+        return element.toString().contains(_textController.text.toString());
+      }
+      return true;
+    }).toList();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _textController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
       child: Container(
-        height: 600,
-        child: ListView.separated(
-          itemCount: widget.items.length,
-          padding: EdgeInsets.zero,
-          separatorBuilder: (context, index) => Divider(),
-          itemBuilder: (context, index) {
-            final key = widget.items[index];
-            return ListTile(
-              onTap: () {
-                setState(() {
-                  widget.fieldState.updateCheckbox(
-                      key, !widget.fieldState.itemDictionary[key]);
-                });
-              },
-              leading: Checkbox(
-                value: widget.fieldState.itemDictionary[key],
-                onChanged: (checked) {
-                  setState(() {
-                    widget.fieldState.updateCheckbox(key, checked);
-                  });
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (widget.filter)
+              TextField(
+                controller: _textController,
+                decoration: InputDecoration(labelText: 'Search...'),
+              ),
+            // [Flexible] allow ListView with shrinkWrap to scrollable, when content too large
+            Flexible(
+              child: ListView.separated(
+                shrinkWrap: true,
+                itemCount: filteredItems.length,
+                padding: EdgeInsets.zero,
+                separatorBuilder: (context, index) => Divider(),
+                itemBuilder: (context, index) {
+                  final key = filteredItems.elementAt(index);
+//                  return null;
+                  return ListTile(
+                    onTap: () {
+                      setState(() {
+                        widget.fieldState.updateCheckbox(
+                            key, !widget.fieldState.itemDictionary[key]);
+                      });
+                    },
+                    leading: Checkbox(
+                      value: widget.fieldState.itemDictionary[key],
+                      onChanged: (checked) {
+                        setState(() {
+                          widget.fieldState.updateCheckbox(key, checked);
+                        });
+                      },
+                    ),
+                    title: Text('$key'),
+                  );
                 },
               ),
-              title: Text('$key'),
-            );
-          },
+            ),
+          ],
         ),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -180,7 +237,9 @@ class _MultiSelectDropdownMenuState<T> extends FormFieldState<List<T>> {
 
   updateCheckbox(dynamic key, bool value) {
     _itemDictionary.update(key, (oldValue) => value);
-    super.didChange(_itemDictionary.keys.where((element) => _itemDictionary[element]).toList());
+    super.didChange(_itemDictionary.keys
+        .where((element) => _itemDictionary[element])
+        .toList());
   }
 }
 

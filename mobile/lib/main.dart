@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_web/bloc/bloc-provider.dart';
 import 'package:movie_web/examples/examples.dart';
+import 'package:movie_web/examples/form-screen.dart';
 import 'package:movie_web/examples/platform-screen.dart';
 import 'package:movie_web/screens/app_screen.dart';
 import 'package:movie_web/examples/ar_screen.dart';
@@ -54,7 +55,8 @@ class MyApp extends StatelessWidget {
           RadialMenuScreen.routeName: (context) => RadialMenuScreen(),
           TimeScreen.routeName: (context) => TimeScreen(),
           ArScreen.routeName: (context) => ArScreen(),
-          PlatformScreen.routeName: (context) => PlatformScreen()
+          PlatformScreen.routeName: (context) => PlatformScreen(),
+          FormScreen.routeName: (context) => FormScreen(),
         });
   }
 }

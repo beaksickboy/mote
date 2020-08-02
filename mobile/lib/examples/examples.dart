@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_web/examples/form-screen.dart';
 import 'package:movie_web/examples/parallax_carousel_screen.dart';
 import 'package:movie_web/examples/platform-screen.dart';
 import 'package:movie_web/examples/radial_menu_screen.dart';
@@ -37,6 +38,11 @@ class Examples extends StatelessWidget {
         icon: Icon(Icons.widgets),
         routeName: PlatformScreen.routeName,
         subTitle: 'Demonstrate widget adapt for different platform'),
+    _DemoInfo(
+        title: 'Form Screen',
+        icon: Icon(Icons.widgets),
+        routeName: FormScreen.routeName,
+        subTitle: 'Demonstrate custom form field'),
   ];
 
   @override
