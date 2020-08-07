@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_web/common/layout/date-range-picker.dart';
 import 'package:movie_web/common/layout/multi-select-dropdown-menu.dart';
 
 class FormScreen extends StatelessWidget {
@@ -35,7 +36,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
     return Padding(
-      padding: const EdgeInsets.only(top: 300.0),
+      padding: const EdgeInsets.only(top: 0.0),
       child: Form(
         key: _formKey,
         child: Column(
@@ -53,6 +54,11 @@ class MyCustomFormState extends State<MyCustomForm> {
                 return null;
               },
             ),
+            DatePickerForm(
+              firstDate: DateTime(2000),
+              initialValue: DateTime.now(),
+              lastDate: DateTime(3000),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: RaisedButton(
@@ -60,8 +66,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                   // Validate returns true if the form is valid, or false
                   // otherwise.
                   if (_formKey.currentState.validate()) {
-                    Scaffold.of(context)
-                        .showSnackBar(SnackBar(content: Text('Processing Data')));
+                    Scaffold.of(context).showSnackBar(
+                        SnackBar(content: Text('Processing Data')));
                   }
                 },
                 child: Text('Submit'),
