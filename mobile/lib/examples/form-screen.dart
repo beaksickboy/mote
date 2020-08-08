@@ -54,11 +54,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                 return null;
               },
             ),
-            DatePickerForm(
-              firstDate: DateTime(2000),
-              initialValue: DateTime.now(),
-              lastDate: DateTime(3000),
-            ),
+            DatePickerForm(),
+            DateRangePickerForm(),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: RaisedButton(
