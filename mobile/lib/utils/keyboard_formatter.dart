@@ -1,14 +1,14 @@
 import 'package:flutter/services.dart';
 
-/// Blacklist key will be replace with ""
+/// not allow key will be replace with ""
 /// Use with inputFormatter props in TextField
 class KeyboardFormatter {
   static FilteringTextInputFormatter positiveInteger() {
-    return FilteringTextInputFormatter(RegExp('[.,-]'), allow: false);
+    return FilteringTextInputFormatter(RegExp('[ .,-]'), allow: false);
   }
 
   static FilteringTextInputFormatter positiveNumber() {
-    return FilteringTextInputFormatter(RegExp('[,-]'), allow: false);
+    return FilteringTextInputFormatter(RegExp('[ ,-]'), allow: false);
   }
 
   static FilteringTextInputFormatter blackList(String blackListCharacters) {
