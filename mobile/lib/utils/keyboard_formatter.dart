@@ -3,17 +3,17 @@ import 'package:flutter/services.dart';
 /// Blacklist key will be replace with ""
 /// Use with inputFormatter props in TextField
 class KeyboardFormatter {
-  static BlacklistingTextInputFormatter positiveInteger() {
-    return BlacklistingTextInputFormatter(RegExp('[.,-]'));
+  static FilteringTextInputFormatter positiveInteger() {
+    return FilteringTextInputFormatter(RegExp('[.,-]'), allow: false);
   }
 
-  static BlacklistingTextInputFormatter positiveNumber() {
-    return BlacklistingTextInputFormatter(RegExp('[,-]'));
+  static FilteringTextInputFormatter positiveNumber() {
+    return FilteringTextInputFormatter(RegExp('[,-]'), allow: false);
   }
 
-  static BlacklistingTextInputFormatter blackList(
-      String blackListCharacters) {
-    return BlacklistingTextInputFormatter(RegExp('[$blackListCharacters]'));
+  static FilteringTextInputFormatter blackList(String blackListCharacters) {
+    return FilteringTextInputFormatter(RegExp('[$blackListCharacters]'),
+        allow: false);
   }
 
   static TextInputFormatter uppercase() {
@@ -34,6 +34,4 @@ class KeyboardFormatter {
       return allMatch.length <= 1 ? newValue : oldValue;
     });
   }
-
-
 }

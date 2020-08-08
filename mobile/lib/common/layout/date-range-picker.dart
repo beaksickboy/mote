@@ -62,41 +62,42 @@ class DatePickerForm extends FormField<DateTime> {
               // Apply color for icon when field has error
               final InputDecoration baseDecoration =
                   fieldState.widget.decoration.copyWith(
-                suffixIcon: GestureDetector(
-                    child: Icon(
-                      Icons.date_range,
-                      color: fieldState.hasError
-                          ? Colors.red
-                          : IconTheme.of(fieldState.context).color,
-                    ),
-                    onTap: () {
-                      showDatePicker(
-                        context: fieldState.context,
-                        firstDate: firstDate ?? DateTime(2000),
-                        lastDate: lastDate ?? DateTime(3000),
-                        useRootNavigator: useRootNavigator,
-                        builder: transitionBuilder,
-                        cancelText: cancelText,
-                        confirmText: confirmText,
-                        currentDate: currentDate,
-                        routeSettings: routeSettings,
-                        locale: locale,
-                        initialDate: fieldState.value,
-                        selectableDayPredicate: selectableDayPredicate,
-                      ).then((value) => {
-                            if (value != null) {fieldState.didChange(value)}
-                          });
-                    }),
+                suffixIcon: Icon(
+                  Icons.date_range,
+                  color: fieldState.hasError
+                      ? Colors.red
+                      : IconTheme.of(fieldState.context).color,
+                ),
               );
               // Apply default input theme
               final InputDecoration decoration = baseDecoration.applyDefaults(
                 Theme.of(fieldState.context).inputDecorationTheme,
               );
 
-              return InputDecorator(
-                decoration: decoration,
-                child: Text(
-                    '${fieldState.widget.dateFormat.format(fieldState.value)}'),
+              return GestureDetector(
+                child: InputDecorator(
+                  decoration: decoration,
+                  child: Text(
+                      '${fieldState.widget.dateFormat.format(fieldState.value)}'),
+                ),
+                onTap: () {
+                  showDatePicker(
+                    context: fieldState.context,
+                    firstDate: firstDate ?? DateTime(2000),
+                    lastDate: lastDate ?? DateTime(3000),
+                    useRootNavigator: useRootNavigator,
+                    builder: transitionBuilder,
+                    cancelText: cancelText,
+                    confirmText: confirmText,
+                    currentDate: currentDate,
+                    routeSettings: routeSettings,
+                    locale: locale,
+                    initialDate: fieldState.value,
+                    selectableDayPredicate: selectableDayPredicate,
+                  ).then((value) => {
+                        if (value != null) {fieldState.didChange(value)}
+                      });
+                },
               );
             });
 
@@ -175,40 +176,40 @@ class DateRangePickerForm extends FormField<DateTimeRange> {
               // Apply color for icon when field has error
               final InputDecoration baseDecoration =
                   fieldState.widget.decoration.copyWith(
-                suffixIcon: GestureDetector(
-                    child: Icon(
-                      Icons.date_range,
-                      color: fieldState.hasError
-                          ? Colors.red
-                          : IconTheme.of(fieldState.context).color,
-                    ),
-                    onTap: () {
-                      showDateRangePicker(
-                        context: fieldState.context,
-                        firstDate: firstDate ?? DateTime(2000),
-                        lastDate: lastDate ?? DateTime(3000),
-                        useRootNavigator: useRootNavigator,
-                        builder: transitionBuilder,
-                        cancelText: cancelText,
-                        confirmText: confirmText,
-                        currentDate: currentDate,
-                        routeSettings: routeSettings,
-                        locale: locale,
-                        initialDateRange: fieldState.value,
-                      ).then((value) => {
-                            if (value != null) {fieldState.didChange(value)}
-                          });
-                    }),
+                suffixIcon: Icon(
+                  Icons.date_range,
+                  color: fieldState.hasError
+                      ? Colors.red
+                      : IconTheme.of(fieldState.context).color,
+                ),
               );
               // Apply default input theme
               final InputDecoration decoration = baseDecoration.applyDefaults(
                 Theme.of(fieldState.context).inputDecorationTheme,
               );
-              return InputDecorator(
-                decoration: decoration,
-                child: Text(
-                    '${fieldState.widget.dateFormat.format(fieldState.value.start)} - ${fieldState.widget.dateFormat.format(fieldState.value.end)}'),
-              );
+              return GestureDetector(
+                  child: InputDecorator(
+                    decoration: decoration,
+                    child: Text(
+                        '${fieldState.widget.dateFormat.format(fieldState.value.start)} - ${fieldState.widget.dateFormat.format(fieldState.value.end)}'),
+                  ),
+                  onTap: () {
+                    showDateRangePicker(
+                      context: fieldState.context,
+                      firstDate: firstDate ?? DateTime(2000),
+                      lastDate: lastDate ?? DateTime(3000),
+                      useRootNavigator: useRootNavigator,
+                      builder: transitionBuilder,
+                      cancelText: cancelText,
+                      confirmText: confirmText,
+                      currentDate: currentDate,
+                      routeSettings: routeSettings,
+                      locale: locale,
+                      initialDateRange: fieldState.value,
+                    ).then((value) => {
+                          if (value != null) {fieldState.didChange(value)}
+                        });
+                  });
             });
 
   @override

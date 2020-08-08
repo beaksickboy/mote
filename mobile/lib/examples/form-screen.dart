@@ -42,20 +42,42 @@ class MyCustomFormState extends State<MyCustomForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            MultiSelectDropdownMenu<String>(
-              autovalidate: true,
-              items: ['ABCD', 'abdsE', 'asdasdF', 'adsasddG'],
-              filter: true,
-              validator: (value) {
-                print(value);
-                if (value == null || value.length == 0) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: MultiSelectDropdownMenu<String>(
+                autovalidate: true,
+                items: ['ABCD', 'abdsE', 'asdasdF', 'adsasddG'],
+                filter: true,
+                validator: (value) {
+                  print(value);
+                  if (value == null || value.length == 0) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: 'Multi Select Dropdown',
+                ),
+              ),
             ),
-            DatePickerForm(),
-            DateRangePickerForm(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: DatePickerForm(
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: 'Date Picker',
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: DateRangePickerForm(
+                decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    labelText: 'Date Range Picker'),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: RaisedButton(
