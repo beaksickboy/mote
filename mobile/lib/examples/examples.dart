@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_web/examples/form-screen.dart';
+import 'package:movie_web/examples/hof-screen.dart';
 import 'package:movie_web/examples/parallax_carousel_screen.dart';
 import 'package:movie_web/examples/platform-screen.dart';
 import 'package:movie_web/examples/radial_menu_screen.dart';
@@ -19,7 +20,7 @@ class Examples extends StatelessWidget {
 
   final List<_DemoInfo> demos = [
     _DemoInfo(
-        title: 'Parallax Ca rousel',
+        title: 'Parallax Carousel',
         icon: Icon(Icons.widgets),
         routeName: ParallaxCarouselScreen.routeName,
         subTitle: 'Carousel with parallax effect'),
@@ -43,6 +44,11 @@ class Examples extends StatelessWidget {
         icon: Icon(Icons.widgets),
         routeName: FormScreen.routeName,
         subTitle: 'Demonstrate custom form field'),
+    _DemoInfo(
+        title: 'HOF Screen',
+        icon: Icon(Icons.widgets),
+        routeName: HistoryOfEverythingScreen.routeName,
+        subTitle: 'History Of Everything Screen'),
   ];
 
   @override
