@@ -4,13 +4,13 @@ import 'package:http/http.dart' as http;
 import 'package:movie_web/const/device_width.dart';
 import 'package:movie_web/models/user.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class UserService {
 //  final GoogleAuthProvider
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+//  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
 
 
@@ -32,14 +32,14 @@ class UserService {
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
     final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-
-    final FirebaseUser user = (await _firebaseAuth.signInWithCredential(credential)).user;
-    print("signed in " + user.displayName);
-    return user;
+//    final AuthCredential credential = GoogleAuthProvider.getCredential(
+//      accessToken: googleAuth.accessToken,
+//      idToken: googleAuth.idToken,
+//    );
+//
+//    final FirebaseUser user = (await _firebaseAuth.signInWithCredential(credential)).user;
+//    print("signed in " + user.displayName);
+//    return user;
   }
 
   Future<bool> signup(email, password, username, phone) async {

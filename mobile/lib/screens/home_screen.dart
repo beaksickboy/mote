@@ -1,12 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:movie_web/examples/parallax_carousel_screen.dart';
 import 'package:movie_web/examples/radial_menu_screen.dart';
 import 'package:movie_web/examples/timer-screen.dart';
-import 'package:movie_web/utils/keyboard_formatter.dart';
-import 'package:movie_web/widgets/parallax-carousel.dart';
 
 class _DemoInfo {
   String title;

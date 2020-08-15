@@ -16,7 +16,7 @@ class CategoryMovie extends StatelessWidget {
     if (screenSize.width < MOBILE_WIDTH) {
       return 200.0;
     }
-    // return 0;
+     return 0;
   }
 
   @override

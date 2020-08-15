@@ -58,7 +58,7 @@ class _CollapsibleContainerState extends State<CollapsibleContainer>
   void initState() {
     super.initState();
     animationController =
-        AnimationController(vsync: this, duration: widget.duration);
+        AnimationController(duration: widget.duration, vsync: this);
     sizedAnimation = Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
         parent: animationController, curve: Curves.fastOutSlowIn));
   }
