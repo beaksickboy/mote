@@ -1,6 +1,7 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+import 'package:nima/nima.dart';
+import 'package:nima/nima_actor.dart';
 
 class HistoryOfEverythingScreen extends StatefulWidget {
   static final String routeName = 'hof';
@@ -93,36 +94,49 @@ class _CollapsibleContainerState extends State<CollapsibleContainer>
     return GestureDetector(
       onTap: onToggle,
       child: Container(
-        decoration: BoxDecoration(
-          color: widget.backgroundColor,
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Column(
-          children: [
-            Container(
-              height: 150,
-              child: Row(
+          decoration: BoxDecoration(
+            color: widget.backgroundColor,
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Stack(
+            children: [
+              Positioned.fill(
+                  child: NimaActor(
+                'assets/fish/Fish_and_Stuff.nima',
+//                'assets/Robot.nima',
+                fit: BoxFit.cover,
+                alignment: Alignment(1, 0),
+                animation: 'Idle',
+              )),
+              Column(
                 children: [
                   Container(
-                    child: FlareActor(
-                      'assets/ExpandCollapse.flr',
-                      animation: _isCollapse ? 'Collapse' : 'Expand',
-                      color: widget.iconColor,
+                    height: 150,
+                    padding: EdgeInsets.all(18),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Container(
+                          child: FlareActor(
+                            'assets/ExpandCollapse.flr',
+                            animation: _isCollapse ? 'Collapse' : 'Expand',
+                            color: widget.iconColor,
+                          ),
+                          width: 20,
+                          height: 20,
+                        )
+                      ],
                     ),
-                    width: 20,
-                    height: 20,
+                  ),
+                  SizeTransition(
+                    sizeFactor: sizedAnimation,
+                    axis: Axis.vertical,
+                    child: widget.child,
                   )
                 ],
               ),
-            ),
-            SizeTransition(
-              sizeFactor: sizedAnimation,
-              axis: Axis.vertical,
-              child: widget.child,
-            )
-          ],
-        ),
-      ),
+            ],
+          )),
     );
   }
 }
