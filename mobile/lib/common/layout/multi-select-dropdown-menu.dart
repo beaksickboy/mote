@@ -72,7 +72,10 @@ class MultiSelectDropdownMenu<T> extends FormField<List<T>> {
                   Navigator.of(fieldState.context).push(
                     _MultiSelectDropdownRoute(
                       child: _MultiSelectDropdownContent(
-                          items: items, fieldState: fieldState, filter: filter),
+                        items: items,
+                        fieldState: fieldState,
+                        filter: filter,
+                      ),
                       inputRect: inputRect,
                       maxHeight: maxHeight,
                       filter: filter,
@@ -279,7 +282,6 @@ class _MultiSelectDropdownRoute extends PopupRoute {
     return ScaleTransition(
       scale: animation.drive(Tween(begin: 0.9, end: 1.0)),
       alignment: Alignment.topLeft,
-
       child: FadeTransition(
         opacity: animation,
         child: LayoutBuilder(
@@ -361,8 +363,7 @@ class _MultiSelectDropdownDelegate extends SingleChildLayoutDelegate {
   BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
     // Given constraint for child
     // Adjust dimension of child
-    // Make popup width bigger than itself
-    double width = min(constraints.maxWidth, inputRect.width * 1.1);
+    double width = inputRect.width;
     return BoxConstraints(
         maxHeight: maxHeight, minHeight: 0, minWidth: width, maxWidth: width);
   }
