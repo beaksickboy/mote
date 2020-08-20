@@ -1,29 +1,35 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 
+typedef BaseBuilder = Widget Function(bool collapse);
+
 class CollapsibleContainer extends StatefulWidget {
   final Duration duration;
+
   /// Child what will show when expand
   final Widget child;
   final Color backgroundColor;
   final BorderRadius borderRadius;
   final Color iconColor;
+
   /// Base background widget that fill all container
   final Widget background;
+
   /// Base height when container collapse
   final double baseHeight;
+  final BaseBuilder baseBuilder;
 
-  const CollapsibleContainer({
-    Key key,
-    @required this.child,
-    @required this.background,
-    this.duration = const Duration(milliseconds: 300),
-    this.backgroundColor = Colors.grey,
-    this.borderRadius,
-    this.iconColor = Colors.black,
-    this.baseHeight = 250
-  })  : assert(background != null, 'Background widget must not be null'),
-        assert(child != null, 'Expand child must not be null'),
+  const CollapsibleContainer(
+      {Key key,
+      @required this.child,
+      this.background,
+      this.baseBuilder,
+      this.duration = const Duration(milliseconds: 300),
+      this.backgroundColor = Colors.grey,
+      this.borderRadius,
+      this.iconColor = Colors.black,
+      this.baseHeight = 250})
+      : assert(child != null, 'Expand child must not be null'),
         super(key: key);
 
   @override
@@ -81,8 +87,8 @@ class _CollapsibleContainerState extends State<CollapsibleContainer>
           ),
           child: Stack(
             children: [
-              Positioned.fill(
-                  child: widget.background),
+              if (widget.background != null)
+                Positioned.fill(child: widget.background),
               Column(
                 children: [
                   Container(
@@ -91,15 +97,8 @@ class _CollapsibleContainerState extends State<CollapsibleContainer>
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Container(
-                          child: FlareActor(
-                            'assets/ExpandCollapse.flr',
-                            animation: _isCollapse ? 'Collapse' : 'Expand',
-                            color: widget.iconColor,
-                          ),
-                          width: 20,
-                          height: 20,
-                        )
+                        if (widget.baseBuilder != null)
+                          widget.baseBuilder(_isCollapse)
                       ],
                     ),
                   ),

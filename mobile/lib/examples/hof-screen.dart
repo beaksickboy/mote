@@ -24,38 +24,55 @@ class _HistoryOfEverythingState extends State<HistoryOfEverythingScreen> {
                 child: CollapsibleContainer(
                   background: NimaActor(
                     'assets/fish/Fish_and_Stuff.nima',
-                    fit: BoxFit.contain,
+                    fit: BoxFit.cover,
                     animation: 'Idle',
                   ),
-                  child: Container(
-                    child: Text('My Child Will so when expand'),
-                    height: 150,
-                    width: double.infinity,
-                    color: Colors.blue,
-                  ),
-                  backgroundColor: Colors.white,
+                  baseBuilder: (collapse) {
+                    return Container(
+                      child: FlareActor(
+                        'assets/ExpandCollapse.flr',
+                        animation: collapse ? 'Expand' : 'Collapse',
+                        color: Colors.black,
+                      ),
+                      width: 20,
+                      height: 20,
+                    );
+                  },
+                  child: _Detail(),
+                  backgroundColor: Colors.lightBlueAccent,
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.all(20.0),
-                child: CollapsibleContainer(
-                  background: NimaActor(
-                    'assets/Robot.nima',
-                    fit: BoxFit.contain,
-                    animation: 'Flight',
-                  ),
-                  child: Container(
-                    child: Text('My Child Will so when expand'),
-                    height: 150,
-                    width: double.infinity,
-//                    color: Colors.blue,
-                  ),
-                  backgroundColor: Colors.white,
-                ),
-              )
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _Detail extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 200,
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Robot Era',
+            style: TextStyle(
+                fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          Container(
+            height: 100,
+            child: NimaActor(
+              'assets/Robot.nima',
+              fit: BoxFit.contain,
+              animation: 'Flight',
+            ),
+          )
+        ],
       ),
     );
   }
