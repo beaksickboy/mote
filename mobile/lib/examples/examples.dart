@@ -4,6 +4,7 @@ import 'package:movie_web/examples/hof-screen.dart';
 import 'package:movie_web/examples/parallax_carousel_screen.dart';
 import 'package:movie_web/examples/platform-screen.dart';
 import 'package:movie_web/examples/radial_menu_screen.dart';
+import 'package:movie_web/examples/teddy-screen.dart';
 import 'package:movie_web/examples/timer-screen.dart';
 
 class _DemoInfo {
@@ -49,6 +50,11 @@ class Examples extends StatelessWidget {
         icon: Icon(Icons.widgets),
         routeName: HistoryOfEverythingScreen.routeName,
         subTitle: 'History Of Everything Screen'),
+    _DemoInfo(
+        title: 'Teddy Screen',
+        icon: Icon(Icons.widgets),
+        routeName: TeddyScreen.routeName,
+        subTitle: 'Teddy Rive'),
   ];
 
   @override
