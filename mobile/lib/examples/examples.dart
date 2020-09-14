@@ -4,6 +4,7 @@ import 'package:movie_web/examples/hof-screen.dart';
 import 'package:movie_web/examples/parallax_carousel_screen.dart';
 import 'package:movie_web/examples/platform-screen.dart';
 import 'package:movie_web/examples/radial_menu_screen.dart';
+import 'package:movie_web/examples/request-screen.dart';
 import 'package:movie_web/examples/teddy-screen.dart';
 import 'package:movie_web/examples/timer-screen.dart';
 
@@ -55,6 +56,11 @@ class Examples extends StatelessWidget {
         icon: Icon(Icons.widgets),
         routeName: TeddyScreen.routeName,
         subTitle: 'Teddy Rive'),
+    _DemoInfo(
+        title: 'Request Screen',
+        icon: Icon(Icons.widgets),
+        routeName: RequestScreen.routeName,
+        subTitle: 'Request with dio'),
   ];
 
   @override

@@ -4,6 +4,7 @@ import 'package:movie_web/examples/examples.dart';
 import 'package:movie_web/examples/form-screen.dart';
 import 'package:movie_web/examples/hof-screen.dart';
 import 'package:movie_web/examples/platform-screen.dart';
+import 'package:movie_web/examples/request-screen.dart';
 import 'package:movie_web/examples/teddy-screen.dart';
 import 'package:movie_web/screens/app_screen.dart';
 import 'package:movie_web/examples/ar_screen.dart';
@@ -61,6 +62,7 @@ class MyApp extends StatelessWidget {
           FormScreen.routeName: (context) => FormScreen(),
           HistoryOfEverythingScreen.routeName: (context) => HistoryOfEverythingScreen(),
           TeddyScreen.routeName: (context) => TeddyScreen(),
+          RequestScreen.routeName: (context) => RequestScreen(),
         });
   }
 }
