@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:vector_math/vector_math.dart';
 
 import 'package:flutter/material.dart';
 
@@ -37,12 +38,11 @@ class _RadialGestureState extends State<RadialGesture> {
     return GestureDetector(
       onPanStart: (DragStartDetails details) {
         final polarCoordinate = _polarCoordinate(details.globalPosition);
-        widget.onRadialGestureStart();
+        widget.onRadialGestureStart(polarCoordinate);
       },
       onPanUpdate: (DragUpdateDetails details) {
         final polarCoordinate = _polarCoordinate(details.globalPosition);
-        print(polarCoordinate);
-        widget.onRadialGestureUpdate();
+        widget.onRadialGestureUpdate(polarCoordinate);
       },
       onPanEnd: (DragEndDetails details) {
         widget.onRadialGestureEnd();
@@ -54,7 +54,7 @@ class _RadialGestureState extends State<RadialGesture> {
 }
 
 class PolarCoordinate {
-  final double angle;
+  final double radian;
   final double radius;
 
   factory PolarCoordinate.fromPoints(Point origin, Point point) {
@@ -71,15 +71,15 @@ class PolarCoordinate {
     );
   }
 
-  PolarCoordinate(this.angle, this.radius);
+  PolarCoordinate(this.radian, this.radius);
 
   @override
   toString() {
-    return 'Polar Coord: ${radius.toStringAsFixed(2)}' +
-        ' at ${(angle * (360 / (2 * pi))).toStringAsFixed(2)}°';
+    return 'Radian: ${radian.toStringAsFixed(2)}°' +
+        ', Radius: ${radius.toStringAsFixed(2)}°';
   }
 }
 
-typedef RadialGestureStart = void Function();
-typedef RadialGestureUpdate = void Function();
+typedef RadialGestureStart = void Function(PolarCoordinate polarCoordinate);
+typedef RadialGestureUpdate = void Function(PolarCoordinate polarCoordinate);
 typedef RadialGestureEnd = void Function();

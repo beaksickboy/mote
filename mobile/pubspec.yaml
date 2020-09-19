@@ -32,6 +32,8 @@ dependencies:
   flare_flutter: ^2.0.6
   nima: ^1.0.5
   dio: ^3.0.10
+  get:
+  vector_math: any
 
 dev_dependencies:
   flutter_test:
