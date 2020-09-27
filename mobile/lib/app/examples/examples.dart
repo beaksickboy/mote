@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:movie_web/examples/form-screen.dart';
-import 'package:movie_web/examples/hof-screen.dart';
-import 'package:movie_web/examples/parallax_carousel_screen.dart';
-import 'package:movie_web/examples/platform-screen.dart';
-import 'package:movie_web/examples/radial_menu_screen.dart';
-import 'package:movie_web/examples/request-screen.dart';
-import 'package:movie_web/examples/teddy-screen.dart';
-import 'package:movie_web/examples/timer-screen.dart';
+import 'package:movie_web/app/examples/hof-screen.dart';
+import 'package:movie_web/app/examples/parallax_carousel_screen.dart';
+import 'package:movie_web/app/examples/platform-screen.dart';
+import 'package:movie_web/app/examples/radial_menu_screen.dart';
+import 'package:movie_web/app/examples/request-screen.dart';
+import 'package:movie_web/app/examples/teddy-screen.dart';
+import 'package:movie_web/app/examples/timer-screen.dart';
+
+import 'form-screen.dart';
+import 'map-screen.dart';
 
 class _DemoInfo {
   String title;
@@ -61,6 +63,11 @@ class Examples extends StatelessWidget {
         icon: Icon(Icons.widgets),
         routeName: RequestScreen.routeName,
         subTitle: 'Request with dio'),
+    _DemoInfo(
+        title: 'Map Screen',
+        icon: Icon(Icons.map),
+        routeName: MapSample.routeName,
+        subTitle: 'Demonstrate with google map'),
   ];
 
   @override
@@ -71,14 +78,14 @@ class Examples extends StatelessWidget {
         children: demos
             .map(
               (e) => ListTile(
-            title: Text(e.title),
-            subtitle: Text(e.subTitle),
-            leading: e.icon,
-            onTap: () {
-              Navigator.pushNamed(context, e.routeName);
-            },
-          ),
-        )
+                title: Text(e.title),
+                subtitle: Text(e.subTitle),
+                leading: e.icon,
+                onTap: () {
+                  Navigator.pushNamed(context, e.routeName);
+                },
+              ),
+            )
             .toList(),
       ),
     );

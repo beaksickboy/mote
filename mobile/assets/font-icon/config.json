@@ -1,0 +1,22 @@
+{
+  "name": "CustomIcon",
+  "css_prefix_text": "",
+  "css_use_suffix": false,
+  "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "glyphs": [
+    {
+      "uid": "c91e021561eef67ea7a6f07743d7a664",
+      "css": "user",
+      "code": 61447,
+      "src": "fontawesome5"
+    },
+    {
+      "uid": "1bafeeb1808a5fe24484c7890096901a",
+      "css": "user-plus",
+      "code": 62004,
+      "src": "fontawesome"
+    }
+  ]
+}

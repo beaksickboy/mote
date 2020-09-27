@@ -9,6 +9,8 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="movie_web"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAhwFa9pIP_Y-o6pk3D22YvKaFEyQD7fOU"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
