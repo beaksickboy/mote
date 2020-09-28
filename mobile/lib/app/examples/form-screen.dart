@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_web/common/layout/date-range-picker.dart';
 import 'package:movie_web/common/layout/multi-select-dropdown-menu.dart';
-import 'package:movie_web/utils/keyboard_formatter.dart';
+import 'package:movie_web/common/presentation/keyboard_formatter.dart';
 
 class FormScreen extends StatelessWidget {
   static final String routeName = '/form-example';

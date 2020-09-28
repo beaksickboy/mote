@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:movie_web/utils/color_util.dart';
 
 class SearchScreen extends SearchDelegate {
 
@@ -16,7 +15,7 @@ class SearchScreen extends SearchDelegate {
     final ThemeData theme = Theme.of(context);
     assert(theme != null);
     return theme.copyWith(
-      primaryColor:  ColorUtil.backgroundColor, // Background color
+      // primaryColor:  ColorUtil.backgroundColor, // Background color
       primaryIconTheme: theme.primaryIconTheme.copyWith(color: Colors.grey),
       primaryColorBrightness: Brightness.light,
       primaryTextTheme: theme.textTheme.copyWith(),

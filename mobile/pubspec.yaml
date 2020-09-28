@@ -54,8 +54,8 @@ flutter:
 
   fonts:
     - family:  CustomIcon
-    - fonts:
-      - asset: assets/font-icon/CustomIcon.ttf
+      fonts:
+        - asset: assets/font-icon/CustomIcon.ttf
 
   # To add assets to your application, add an assets section, like this:
   assets:

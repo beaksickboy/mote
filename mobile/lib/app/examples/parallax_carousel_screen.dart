@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_web/widgets/parallax-carousel.dart';
+import 'package:movie_web/common/layout/carousel.dart';
 
 class ParallaxCarouselScreen extends StatelessWidget {
   static String routeName = '/parallax-carousel-screen';
@@ -15,15 +15,15 @@ class ParallaxCarouselScreen extends StatelessWidget {
               showScrollIndicator: true,
               items: [
                 ParallaxCardModel(
-                  backgroundImage: Image.asset('assets/pic1.jpg', fit: BoxFit.cover,),
+                  backgroundImage: AssetImage('assets/pic1.jpg'),
 
                 ),
                 ParallaxCardModel(
-                  backgroundImage: Image.asset('assets/pic2.jpg', fit: BoxFit.cover),
+                  backgroundImage: AssetImage('assets/pic2.jpg'),
 
                 ),
                 ParallaxCardModel(
-                  backgroundImage: Image.asset('assets/pic3.jpg', fit: BoxFit.cover),
+                  backgroundImage: AssetImage('assets/pic3.jpg'),
                 )
               ],
             ),
