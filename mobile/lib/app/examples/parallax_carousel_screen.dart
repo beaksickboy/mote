@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_web/common/layout/carousel.dart';
+import 'package:movie_web/common/layout/carousel/carousel.dart';
 
 class ParallaxCarouselScreen extends StatelessWidget {
   static String routeName = '/parallax-carousel-screen';
@@ -11,8 +11,11 @@ class ParallaxCarouselScreen extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            child: ParallaxCarousel(
+            child: Carousel(
               showScrollIndicator: true,
+              viewPortFraction: 0.8,
+              boxPadding: EdgeInsets.all(10),
+              infiniteScroll: false,
               items: [
                 ParallaxCardModel(
                   backgroundImage: AssetImage('assets/pic1.jpg'),
